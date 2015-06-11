@@ -67,6 +67,7 @@ public class DatePickerPlugin extends CordovaPlugin {
 		
 		String action = "date";
 		long minDateLong = 0, maxDateLong = 0;
+        boolean is24Hour = true;
 
 		int month = -1, day = -1, year = -1, hour = -1, min = -1;
 		try {
@@ -90,6 +91,8 @@ public class DatePickerPlugin extends CordovaPlugin {
 			clearBLabel = obj.getString("clearButtonLabel");
 			clearButton = obj.getBoolean("clearButton");
 
+            is24Hour = obj.getBoolean("is24Hour");
+
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -108,6 +111,7 @@ public class DatePickerPlugin extends CordovaPlugin {
 		final String fCancelBLabel = cancelBLabel;
 		final String fClearBLabel = clearBLabel;
 		final boolean fClearButton = clearButton;
+        final boolean fIs24Hour = is24Hour;
 
 		if (ACTION_TIME.equalsIgnoreCase(action)) {
 			runnable = new Runnable() {
@@ -115,7 +119,7 @@ public class DatePickerPlugin extends CordovaPlugin {
 				public void run() {
 					final TimeSetListener timeSetListener = new TimeSetListener(datePickerPlugin, callbackContext);
 					final TimePickerDialog timeDialog = new TimePickerDialog(currentCtx, timeSetListener, mHour,
-							mMinutes, true);
+							mMinutes, fIs24Hour);
 					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 						timeDialog.setCancelable(true);
 						timeDialog.setCanceledOnTouchOutside(false);
